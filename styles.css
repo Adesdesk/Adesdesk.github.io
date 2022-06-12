@@ -151,13 +151,6 @@ margin-right: 80px;
 	font-weight: 550;
 }
 
-h3 {
-	font-size: 20px;
-	font-weight: 200;
-	line-height: 20px;
-	color: #00154f;
-	}
-
 ul {
 	justify-items: center;
 	padding-left: 0;
@@ -287,6 +280,13 @@ li {
 .Temporary {
 	margin-top: 150px;
 }
+
+h3 {
+	font-size: 20px;
+	font-weight: 550;
+	line-height: 20px;
+	color: #00154f;
+	}
 
 footer {
 bottom: 0;
