@@ -271,6 +271,7 @@ li {
 	margin-left: auto;
 	margin-top: 5px;
 	margin-bottom: 35px;
+	border-radius: 20px 0px 20px 0px;
   width: 120px;
   height: 120px;
   display: flex;
