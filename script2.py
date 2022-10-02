@@ -4,21 +4,20 @@ from PIL import ImageEnhance
 from PIL import ImageFont
 from PIL import ImageDraw
 
-# read image and convert to RGB
+# read image and split to RGB components
 image=Image.open("adesdesk_logo.jpg")
 image=image.convert('RGB')
 
-# build a list of 9 images which have different brightnesses
+# build a list of 15 images with different brightness levels
 enhancer=ImageEnhance.Brightness(image)
 images=[]
-font = ImageFont.truetype("readonly/fanwood-webfont.ttf", 75)
-shades = (0.1, 0.5, 0.9)
+font = ImageFont.truetype("readonly/fanwood-webfont.ttf", 90)
+shades = (0.1, 0.3, 0.5, 0.7, 0.9)
 labels = []
 counter = 0
 
-for x in range(3):
+for x in range(5):
     for i in range(1, 10):
-        #images.append(enhancer.enhance(i/10))
         if i == 1:
             init_shade = image.split()
             new_shade = init_shade[x].point(lambda v:v*(i/10))
@@ -26,6 +25,14 @@ for x in range(3):
             new_img = Image.merge(image.mode, init_shade)
             images.append(new_img)
             labels.append("channel {} intensity {}".format(x, (i/10)))
+        elif i == 3:
+            init_shade = image.split()
+            new_shade = init_shade[x].point(lambda v:v*(i/10))
+            init_shade[x].paste(new_shade)
+            new_img = Image.merge(image.mode, init_shade)
+            images.append(new_img)
+            labels.append("channel {} intensity {}".format(x, (i/10)))
+
         elif i == 5:
             init_shade = image.split()
             new_shade = init_shade[x].point(lambda v:v*(i/10))
@@ -33,6 +40,15 @@ for x in range(3):
             new_img = Image.merge(image.mode, init_shade)
             images.append(new_img)
             labels.append("channel {} intensity {}".format(x, (i/10)))
+
+        elif i == 7:
+            init_shade = image.split()
+            new_shade = init_shade[x].point(lambda v:v*(i/10))
+            init_shade[x].paste(new_shade)
+            new_img = Image.merge(image.mode, init_shade)
+            images.append(new_img)
+            labels.append("channel {} intensity {}".format(x, (i/10)))
+
         elif i == 9:
             init_shade = image.split()
             new_shade = init_shade[x].point(lambda v:v*(i/10))
@@ -45,7 +61,7 @@ for x in range(3):
     
 # create a contact sheet from different brightnesses
 first_image=images[0]
-contact_sheet=PIL.Image.new(first_image.mode, (first_image.width*3,first_image.height*3))
+contact_sheet=PIL.Image.new(first_image.mode, (first_image.width*5,first_image.height*5))
 x=0
 y=0
 
