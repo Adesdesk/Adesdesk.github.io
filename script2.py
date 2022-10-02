@@ -1,8 +1,13 @@
+import cgitb cgitb.enable()
+start_response('200 OK', [('Content-Type', 'text/html')])
+
 import PIL
 from PIL import Image
 from PIL import ImageEnhance
 from PIL import ImageFont
 from PIL import ImageDraw
+
+print("<b> Hello, World</b>")
 
 # read image and split to RGB components
 image=Image.open("adesdesk_logo.jpg")
