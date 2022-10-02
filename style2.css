@@ -13,18 +13,18 @@
     height: 90%;
     margin: 6%;
     padding: 3%;
-    background-color: #dfdddd;
+    background-color: #00154f;
 }
 
 .history-screen
 {
     font-family: 'Common Pixel', sans-serif;
-    background-color: #c7c7c7;
-    font-size: 1.6vw;
+    background-color: #ffffff;
+    font-size: 1.9vw;
     max-width: 50%;
 }
 
-.logo
+.tool
 {
     font-family: 'Common Pixel', sans-serif;
 }
@@ -61,7 +61,7 @@
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
     transition: all 1s;
-    color:#000000;
+    color:#ffffff;
 }
 
 .btn-outline-secondary:hover {
@@ -69,7 +69,7 @@
 }
 
 .btn-outline-secondary:focus {
-    color:#000000;
+    color:#ffffff;
 }
 
 .btn-outline-danger {
@@ -80,7 +80,7 @@
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
     transition: all 1s;
-    color:#000000;
+    color:#ffffff;
 }
 
 .btn-outline-danger:hover {
