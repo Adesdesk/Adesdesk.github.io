@@ -1,0 +1,97 @@
+@import url('http://fonts.cdnfonts.com/css/common-pixel');
+
+.input-screen
+{
+    font-family: 'Common Pixel', sans-serif;
+    background-color: rgb(195, 247, 247);
+    font-size: 2vw;
+}
+
+.calculator-area 
+{
+    width: 70%;
+    height: 90%;
+    margin: 6%;
+    padding: 3%;
+    background-color: #dfdddd;
+}
+
+.history-screen
+{
+    font-family: 'Common Pixel', sans-serif;
+    background-color: #c7c7c7;
+    font-size: 1.6vw;
+    max-width: 50%;
+}
+
+.logo
+{
+    font-family: 'Common Pixel', sans-serif;
+}
+.row 
+{
+    margin: 1%;
+    padding: 1%;
+}
+
+.btn 
+{
+    font-family: 'Common Pixel', sans-serif;
+    margin: 1%;
+    font-size: xx-large;
+}
+
+.reset 
+{
+    font-size: 15px;
+    font-weight:bolder;
+}
+
+.mod
+{
+    font-size: medium;
+    font-weight:bolder;
+}
+
+.btn-outline-secondary {
+    background: linear-gradient(to right, #35SC7D 0%, #35SC7D 50%, #fff300 50%, #fff300 100%);
+    background-size: 200% 200%;
+    background-position: 100% 0;
+    transition: background-position 0.1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
+    color:#000000;
+}
+
+.btn-outline-secondary:hover {
+    background-position:0 0;
+}
+
+.btn-outline-secondary:focus {
+    color:#000000;
+}
+
+.btn-outline-danger {
+    background: linear-gradient(to right, #f87171 0%, #f87171 50%, #ff0000 50%, #ff0000 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
+    color:#000000;
+}
+
+.btn-outline-danger:hover {
+    background-position:0 0;
+}
+
+.btn-outline-danger:focus {
+    color: white;
+}
+
+.outer {
+    margin: 0;
+    padding: 0;
+}
