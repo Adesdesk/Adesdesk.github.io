@@ -258,7 +258,7 @@ li {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding padding-left: 10px;
+  padding-left: 10px;
   }
 
 .bye {
@@ -271,9 +271,10 @@ li {
 	margin-left: auto;
 	margin-top: 5px;
 	margin-bottom: 35px;
-	border-radius: 20px 0px 20px 0px;
-  width: 120px;
-  height: 120px;
+	border-radius: 50%;
+	/*border-radius: 20px 0px 20px 0px;*/
+  width: 90px;
+  height: 80x;
   display: flex;
   float: center;
 }
@@ -294,7 +295,9 @@ bottom: 0;
 width: 100%;
 text-align: center;
 padding: 3px;
-background-color: #F57F17;
-color: #00154f;
+background-color: #333;
+color: #ffffff; 
+/*background-color:#F57F17 
+color: #00154f; */
 }
 
