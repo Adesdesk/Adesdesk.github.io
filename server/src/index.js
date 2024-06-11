@@ -66,3 +66,11 @@ app.get('/api/answers', (req, res) => {
       console.error('failed to delete answer', error);
     }
   });
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`server is running on port ${PORT}`);
+  });
