@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>adesdesk CBT TEST APP</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="mt-5">Adesdesk CBT Test Application</h1>
+      <div id="answer-list" hx-get="/api/answers" hx-trigger="load" hx-target="#answer-list" hx-swap="innerHTML" class="mt-3"></div>
+      <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#addAnswerModal">More Answers</button>
+    </div>
+
+    <!-- More Answer Modal -->
+    <div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby=addAnswerModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addAnswerModalLabel">More Answers</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form hx-post="/api/answers" hx-target="#new-answer-container" hx-swap="beforeend">
+              <div class="form-group">
+                <label for="task">Task</label>
+                <input type="text" class="form-control" id="task" name="task" required />
+              </div>
+              <button type="submit" class="btn btn-primary">More</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="new-answer-container" style="display: none;"></div>
+
+     <!-- Change Answer Modal -->
+     <div class="modal fade" id="changeAnswerModal" tabindex="-1" role="dialog" aria-labelledby="changeAnswerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="changeAnswerModalLabel">Change Answer</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="changeAnswerForm">
+                <div class="form-group">
+                  <label for="changeTask">Task</label>
+                  <input type="text" class="form-control" id="changeTask" name="task" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Answer Template -->
+    <script type="text/template" id="answer-template">
+        <div class="card mb-2" id="answer-{{id}}">
+          <div class="card-body">
+            <h5 class="card-title item-task">{{task}}</h5>
+            <button class="btn btn-warning" onclick="openChangeModal('{{id}}', '{{task}}')">Change</button>
+            <button class="btn btn-danger" onclick="removeAnswer('{{id}}')">Remove</button>
+          </div>
+        </div>
+      </script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      function renderAnswerItem(answer) {
+        const template = document.getElementById('answer-template').innerHTML;
+
+        return template.replace(/{{id}}/g, answer.id).replace(/{{task}}/g, answer.task);
+      }
+
+      function openChangeModal(id, task) {
+        const changeForm = document.getElementById('changeAnswerForm');
+        changeForm.setAttribute('data-id', id);
+        document.getElementById('changeTask').value = task;
+        $('#changeAnswerModal').modal('show');
+      }
+
+      function removeAnswer(id) {
+        fetch(`/api/answers/${id}`, {
+          method: 'remove'
+        })
+        .then(() => {
+          document.querySelector(`#answer-${id}`).remove();
+        });
+      }
+
+      document.addEventListener('htmx:afterRequest', (event) => {
+        if (event.detail.requestConfig.verb === 'post') {
+          document.querySelector('#addAnswerModal form').reset();
+          $('#addAnswerModal').modal('hide');
+
+          const newAnswer = JSON.parse(event.detail.xhr.responseText);
+          const answerHtml = renderAnswerItem(newAnswer);
+
+          document.getElementById('answer-list').insertAdjacentHTML('beforeend', answerHtml);
+
+          event.preventDefault();
+        } else if (event.detail.requestConfig.verb === 'put') {
+          $('#changeAnswerModal').modal('hide');
+        }
+      });
+
+      document.addEventListener('htmx:afterSwap', (event) => {
+        if (event.target.id === 'answer-list') {
+          const answers = JSON.parse(event.detail.xhr.responseText);
+
+          if (Array.isArray(answers)) {
+            let html = '';
+
+            answers.forEach(answer => {
+              html += renderAnswerItem(answer);
+            });
+
+            event.target.innerHTML = html;
+          } else {
+            const answerHtml = renderAnswerItem(answers);
+            event.target.insertAdjacentHTML('beforeend', answerHtml);
+          }
+        }
+      });
+
+      document.getElementById('changeAnswerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const id = event.target.getAttribute('data-id');
+        const task = document.getElementById('changeTask').value;
+
+        fetch(`/api/answers/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ task })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const answerHtml = renderAnswerItem(data);
+          document.querySelector(`#answer-${id}`).outerHTML = answerHtml;
+          $('#changeAnswerModal').modal('hide');
+        })
+        .catch(error => console.error(error));
+      });
+    </script>
+  </body>
+</html>
